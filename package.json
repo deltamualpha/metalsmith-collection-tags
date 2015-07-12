@@ -1,0 +1,37 @@
+{
+  "name": "metalsmith-tags",
+  "version": "0.0.1",
+  "description": "A metalsmith plugin to create dedicated pages for tags from files in collections.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/deltamualpha/metalsmith-collection-tags"
+  },
+  "keywords": [
+    "metalsmith",
+    "plugin",
+    "tags"
+  ],
+  "author": "David Ashby <delta.mu.alpha@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/deltamualpha/metalsmith-collection-tags/issues"
+  },
+  "homepage": "https://github.com/deltamualpha/metalsmith-collection-tags",
+  "devDependencies": {
+    "assert-dir-equal": "1.0.1",
+    "babel-eslint": "^3.1.23",
+    "handlebars": "*",
+    "metalsmith": "1.x",
+    "metalsmith-collections": "^0.7.0",
+    "metalsmith-templates": "~0.7.0",
+    "mocha": "2.x",
+    "moment": "^2.10.3"
+  },
+  "dependencies": {
+    "lodash": "^3.10.0"
+  }
+}
