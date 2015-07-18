@@ -4,13 +4,6 @@ var Metalsmith = require('metalsmith');
 var templates = require('metalsmith-templates');
 var collections = require('metalsmith-collections');
 var tags = require('../lib');
-var Handlebars = require('handlebars');
-var moment = require('moment');
-
-Handlebars.registerHelper('dateFormat', function(context, format) {
-  var f = format || 'DD/MM/YYYY';
-  return moment(new Date(context)).format(f);
-});
 
 describe('metalsmith-tags', function() {
 
