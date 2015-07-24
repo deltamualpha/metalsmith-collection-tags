@@ -124,6 +124,37 @@ describe('metalsmith-tags', function() {
       });
   });
 
+  it('should add references to the previous and next pages in a paginaged tag array', function(done) {
+    Metalsmith('test/fixtures/basic')
+      .use(collections({
+        blog: {
+          pattern: 'blog/*.html',
+          sort: 'date',
+          reverse: true
+        }
+      }))
+      .use(tags({
+        blog: {
+          handle: 'tags',
+          path: 'blog/tags/:tag/index.html',
+          pathPage: 'blog/tags/:tag/:num/index.html',
+          perPage: 1,
+          template: '../tag.hbt'
+        }
+      }))
+      .use(templates(templateConfig))
+      .build(function(err, files){
+        if (err) { return done(err); }
+        assert.equal(files['blog/tags/tag-one/2/index.html'].pagination.prev, files['blog/tags/tag-one/index.html']);
+        assert.equal(files['blog/tags/tag-one/index.html'].pagination.next, files['blog/tags/tag-one/2/index.html']);
+        assert.equal(typeof files['blog/tags/tag-one/index.html'].pagination.prev, 'undefined');
+        assert.equal(typeof files['blog/tags/tag-one/2/index.html'].pagination.next, 'undefined');
+        assert.equal(typeof files['blog/tags/tag-three/index.html'].pagination.prev, 'undefined');
+        assert.equal(typeof files['blog/tags/tag-three/index.html'].pagination.next, 'undefined');
+        done();
+      });
+  });
+
   it('should create tag pages with pagination with post lists according to template and sorted by date decreasing', function(done) {
     Metalsmith('test/fixtures/basic')
       .use(collections({
@@ -151,6 +182,7 @@ describe('metalsmith-tags', function() {
   });
 
   it('should handle multiple collections with the same tags as separate entities but unified in root metadata', function(done) {
+    var tagList;
     Metalsmith('test/fixtures/complex')
       .use(collections({
         blog: {
