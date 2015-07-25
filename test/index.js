@@ -210,6 +210,37 @@ describe('metalsmith-tags', function() {
       });
   });
 
+  it('should replace :tag and :num in a tag page\' metadata', function(done) {
+    Metalsmith('test/fixtures/basic')
+      .use(collections({
+        blog: {
+          pattern: 'blog/*.html',
+          sort: 'date',
+          reverse: true
+        }
+      }))
+      .use(tags({
+        blog: {
+          handle: 'tags',
+          path: 'blog/tags/:tag/index.html',
+          pathPage: 'blog/tags/:tag/:num/index.html',
+          perPage: 1,
+          template: '../tag.hbt',
+          metadata: {
+            title: ':tag - :num',
+            description: "this is the :num page for :tag"
+          }
+        }
+      }))
+      .use(templates(templateConfig))
+      .build(function(err, files){
+        if (err) { return done(err); }
+        assert.equal(files['blog/tags/tag-one/index.html'].title, "tag one - 1");
+        assert.equal(files['blog/tags/tag-one/2/index.html'].description, "this is the 2 page for tag one");
+        done();
+      });
+  });
+
   it('should handle multiple collections with the same tags as separate entities but unified in root metadata', function(done) {
     var tagList;
     Metalsmith('test/fixtures/complex')
