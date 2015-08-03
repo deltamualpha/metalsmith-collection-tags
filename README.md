@@ -27,6 +27,12 @@ Hello World
   You can use different handle for the tags, by configuring the `handle` option. 
   `tags` is the default.
 
+  If you're using handlebars or a similar templating engine, having a different 
+  handle for the tags is useful, because of how these templaters merge file data
+  and global metadata. (That is, `file.tags` will overwrite `metadata.tags`.) 
+  This has the lovely side effect of overloading the meaning of the `tags` prop,
+  resulting in *very* strange behavior if you don't set `file.tags` on every 
+  page!
 
 ## CLI Usage
 
@@ -39,7 +45,7 @@ Hello World
 {
   "plugins": {
     "metalsmith-collections": {
-      "blog": 'blog/*.md'
+      "blog": "blog/*.md"
     },
     "metalsmith-collection-tags": {
       "blog": {
@@ -100,8 +106,34 @@ metalsmith
 ```
 
   This will paginate your array of tags so that 6 appear per page, with 
-  additional tag pages being nested underneath the first page of tags.  For 
+  additional tag pages being nested underneath the first page of tags. For 
   additional details please look at the tests.
+
+## Metadata
+
+  You can also add metadata to the generated tags pages using the following 
+  form:
+
+```js
+var collection-tags = require('metalsmith-collection-tags');
+
+metalsmith
+  .use(collections({
+    blog: "blog/*.md"
+  }))
+  .use(tags({
+    handle: "tags",
+    path: "blog/topics/:tag.html",
+    template: "/partials/tag.hbt"
+    metadata: {
+      title: ':tag - :num',
+      description: "this is the :num page for :tag"
+    }
+  }));
+```
+
+  Just like within the `path` props, each prop on the passed-in `metadata` 
+  object will have `:tag` and `:num` replaced by the relevant data.
 
 ## Contribution
 
