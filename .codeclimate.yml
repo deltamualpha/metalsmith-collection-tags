@@ -1,17 +1,10 @@
 ---
 engines:
-  coffeelint:
-    enabled: true
   eslint:
     enabled: true
-  csslint:
-    enabled: false
 ratings:
   paths:
-  - "**.coffee"
   - "**.js"
-  - "**.jsx"
-  - "**.css"
 exclude_paths:
 - node_modules/**/*
 - test/**/*
